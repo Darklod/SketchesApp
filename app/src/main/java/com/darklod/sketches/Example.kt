@@ -11,7 +11,7 @@ class Example : Sketch() {
     override val image = R.drawable.work_in_progress
 
     override fun settings() {
-        fullScreen(P2D)
+        fullScreen()
     }
 
     override fun setup() {
