@@ -19,10 +19,12 @@ class GridAdapter(private var sketches: ArrayList<Sketch>,
 
     inner class ViewHolder(var layout: View) : RecyclerView.ViewHolder(layout) {
         var title : TextView = layout.findViewById(R.id.title)
+        var date : TextView = layout.findViewById(R.id.date)
         var image : ImageView = layout.findViewById(R.id.image)
 
         fun bind(item: Sketch, listener: OnItemClickListener) {
             title.text = item.title
+            date.text = item.date
             Picasso.with(layout.context).load(item.image).into(image)
             itemView.setOnClickListener {
                 listener.onItemClick(item)

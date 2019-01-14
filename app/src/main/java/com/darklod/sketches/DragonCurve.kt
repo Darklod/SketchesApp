@@ -5,9 +5,9 @@ import com.darklod.app.Sketch
 import processing.core.PConstants
 
 class DragonCurve : Sketch() {
-    override val date = ""
+    override val date = "Undefined"
     override val title = "Dragon Curve"
-    override val description = ""
+    override val description = "Something cool"
     override val image = R.drawable.dragoncurve
 
     // TURTLE

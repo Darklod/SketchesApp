@@ -8,6 +8,17 @@ class Sketches {
 
         init {
             list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
+            list.add(Example())
             list.add(DragonCurve())
 
             list.sortBy { x -> x.title }
