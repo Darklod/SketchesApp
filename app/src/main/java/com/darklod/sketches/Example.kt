@@ -15,6 +15,7 @@ class Example : Sketch() {
     }
 
     override fun setup() {
+        orientation(PORTRAIT)
         background(0)
         fill(255)
     }

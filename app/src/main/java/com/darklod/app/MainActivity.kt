@@ -9,6 +9,10 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.os.Parcelable
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var layoutManager : RecyclerView.LayoutManager
+    private lateinit var spinner : Spinner
+
+    private var sketches = Sketches.list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,18 +32,39 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerview)
         layoutManager = LinearLayoutManager(applicationContext)
+        spinner = findViewById(R.id.spinner)
+
+        val adapter = ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item)
+        adapter.addAll(listOf("Sort By Date", "Sort By Title"))
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
+        {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                when (pos) {
+                    0 -> sketches.sortBy { x -> x.date }
+                    1 -> sketches.sortBy { x -> x.title }
+                }
+                recyclerView.adapter.notifyDataSetChanged()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {  }
+        }
+
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
         val onItemClickInterface : GridAdapter.OnItemClickListener = object : GridAdapter.OnItemClickListener {
             override fun onItemClick(item: Sketch) {
-                RunSketchActivity.sketch = item
-                startActivity(Intent(applicationContext, RunSketchActivity::class.java))
+                val intent = Intent(applicationContext, RunSketchActivity::class.java)
+                intent.putExtra("sketch", item)
+                startActivity(intent)
             }
         }
 
-        val adapter = GridAdapter(Sketches.list, onItemClickInterface)
+        val adapter = GridAdapter(sketches, onItemClickInterface)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
