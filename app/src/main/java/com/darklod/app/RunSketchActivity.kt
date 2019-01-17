@@ -1,21 +1,15 @@
 package com.darklod.app
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
-import com.squareup.picasso.Picasso
 import processing.android.CompatUtils
 import processing.android.PFragment
-import processing.core.PApplet
 
 
 class RunSketchActivity : AppCompatActivity() {
@@ -29,14 +23,15 @@ class RunSketchActivity : AppCompatActivity() {
         sketch = intent.getSerializableExtra("sketch") as Sketch
 
         // Initialize the layout
+        val relative = RelativeLayout(this)
         val frame = FrameLayout(this)
+        val backButton = FloatingActionButton(this)
+
+        relative.id = CompatUtils.getUniqueViewId()
         frame.id = CompatUtils.getUniqueViewId()
+        backButton.id = CompatUtils.getUniqueViewId()
 
-        // Create the back button for the sketch
-        val backButton = FloatingActionButton(frame.context)
-
-        backButton.setImageResource(R.drawable.back)
-        backButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+        backButton.setImageResource(R.drawable.arrow_back)
         backButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
         backButton.setOnClickListener {
             this.finish()
@@ -45,22 +40,22 @@ class RunSketchActivity : AppCompatActivity() {
         val params =
             RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         params.setMargins(16, 16, 16, 16)
-        params.addRule(RelativeLayout.ALIGN_BOTTOM)
-        params.addRule(RelativeLayout.ALIGN_END)
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, backButton.id)
+        params.addRule(RelativeLayout.ALIGN_PARENT_START, backButton.id)
 
-        backButton.layoutParams = params
+        relative.addView(frame)
+        relative.addView(backButton, params)
 
-        frame.addView(backButton, params)
-
+        // set content view
         setContentView(
-            frame, ViewGroup.LayoutParams(
+            relative, RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
 
         val fragment = PFragment(sketch)
-        fragment.setView(frame, this)
+        fragment.setView(relative, this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
