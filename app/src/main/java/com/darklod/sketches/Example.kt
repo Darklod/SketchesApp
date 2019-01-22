@@ -1,5 +1,6 @@
 package com.darklod.sketches
 
+import android.content.pm.ActivityInfo
 import com.darklod.app.R
 import com.darklod.app.Sketch
 
@@ -9,6 +10,10 @@ class Example : Sketch() {
     override val date = "09/01/2019"
     override val title = "Example"
     override val image = R.drawable.work_in_progress
+
+    init {
+        orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
 
     override fun settings() {
         fullScreen()

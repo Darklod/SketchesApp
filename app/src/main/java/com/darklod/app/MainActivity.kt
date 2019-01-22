@@ -3,6 +3,7 @@ package com.darklod.app
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.GridLayoutManager
@@ -26,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
     private var sketches = Sketches.list
 
+    companion object {
+        lateinit var selectedSketch : Sketch
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         spinner = findViewById(R.id.spinner)
 
         val adapter = ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item)
-        adapter.addAll(listOf("Sort By Date", "Sort By Title"))
+        adapter.addAll(listOf("Sort By Title", "Sort By Date"))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         spinner.adapter = adapter
@@ -43,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
                 when (pos) {
-                    0 -> sketches.sortBy { x -> x.date }
-                    1 -> sketches.sortBy { x -> x.title }
+                    1 -> sketches.sortBy { x -> x.date }
+                    0 -> sketches.sortBy { x -> x.title }
                 }
                 recyclerView.adapter.notifyDataSetChanged()
             }
@@ -58,9 +63,16 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         val onItemClickInterface : GridAdapter.OnItemClickListener = object : GridAdapter.OnItemClickListener {
             override fun onItemClick(item: Sketch) {
+                selectedSketch = item
+
+                val oldOrientation = requestedOrientation
+                requestedOrientation = item.orientation
+
                 val intent = Intent(applicationContext, RunSketchActivity::class.java)
                 intent.putExtra("sketch", item)
                 startActivity(intent)
+
+                requestedOrientation = oldOrientation
             }
         }
 

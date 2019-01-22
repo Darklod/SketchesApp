@@ -1,15 +1,21 @@
 package com.darklod.app
 
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import processing.android.CompatUtils
 import processing.android.PFragment
+import processing.core.PConstants.LANDSCAPE
 
 
 class RunSketchActivity : AppCompatActivity() {
@@ -22,16 +28,31 @@ class RunSketchActivity : AppCompatActivity() {
         // Get the current sketch
         sketch = intent.getSerializableExtra("sketch") as Sketch
 
+        requestedOrientation = sketch.orientation
+
         // Initialize the layout
         val relative = RelativeLayout(this)
         val frame = FrameLayout(this)
         val backButton = FloatingActionButton(this)
+        val redrawButton = FloatingActionButton(this)
 
         relative.id = CompatUtils.getUniqueViewId()
         frame.id = CompatUtils.getUniqueViewId()
         backButton.id = CompatUtils.getUniqueViewId()
+        redrawButton.id = CompatUtils.getUniqueViewId()
 
-        backButton.setImageResource(R.drawable.arrow_back)
+        redrawButton.setImageResource(R.drawable.more)
+        redrawButton.setOnClickListener {
+            this.reload()
+        }
+
+        // TODO: GITHUB link in the app
+
+        // TODO: HORIZONTAL EXPAND BUTTON
+        // TODO: More -> Back, Redraw
+        // TODO: CHANGE FRAGMENT TRANSITION IF POSSIBLE
+
+        backButton.setImageResource(R.drawable.back)
         backButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
         backButton.setOnClickListener {
             this.finish()
@@ -45,6 +66,10 @@ class RunSketchActivity : AppCompatActivity() {
 
         relative.addView(frame)
         relative.addView(backButton, params)
+        relative.addView(redrawButton)
+
+
+        //requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         // set content view
         setContentView(
@@ -56,6 +81,21 @@ class RunSketchActivity : AppCompatActivity() {
 
         val fragment = PFragment(sketch)
         fragment.setView(relative, this)
+    }
+
+    private fun reload() {
+        //if (Build.VERSION.SDK_INT >= 11) {
+        //    sketch.activity.recreate()
+        //    sketch.dispose()
+        //}
+        //else {
+            overridePendingTransition(0, 0)
+            intent.putExtra("sketch", MainActivity.selectedSketch)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            sketch.activity.finish()
+            overridePendingTransition(0, 0)
+            sketch.activity.startActivity(intent)
+        //}
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

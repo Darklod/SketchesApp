@@ -1,5 +1,6 @@
 package com.darklod.sketches
 
+import android.content.pm.ActivityInfo
 import com.darklod.app.R
 import com.darklod.app.Sketch
 import processing.core.PConstants
@@ -9,6 +10,10 @@ class DragonCurve : Sketch() {
     override val title = "Dragon Curve"
     override val description = "Something cool"
     override val image = R.drawable.dragoncurve
+
+    init {
+        orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    }
 
     // TURTLE
     private var x = -50f
@@ -30,6 +35,7 @@ class DragonCurve : Sketch() {
 
     override fun setup() {
         orientation(LANDSCAPE)
+        frameRate(160f)
 
         rules["X"] = "X+YF+"
         rules["Y"] = "-FX-Y"

@@ -7,21 +7,11 @@ class Sketches {
         val list = arrayListOf<Sketch>()
 
         init {
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
-            list.add(Example())
+            list.add(CellularAutomata())
+            list.add(Clotoide())
+            list.add(Heart1())
             list.add(Example())
             list.add(DragonCurve())
-
-            list.sortBy { x -> x.title }
         }
     }
 }
