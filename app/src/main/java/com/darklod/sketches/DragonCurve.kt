@@ -3,10 +3,9 @@ package com.darklod.sketches
 import android.content.pm.ActivityInfo
 import com.darklod.app.R
 import com.darklod.app.Sketch
-import processing.core.PConstants
 
 class DragonCurve : Sketch() {
-    override val date = "Undefined"
+    override val date = "12/04/2017"
     override val title = "Dragon Curve"
     override val description = "Something cool"
     override val image = R.drawable.dragoncurve
@@ -35,7 +34,6 @@ class DragonCurve : Sketch() {
 
     override fun setup() {
         orientation(LANDSCAPE)
-        frameRate(160f)
 
         rules["X"] = "X+YF+"
         rules["Y"] = "-FX-Y"
@@ -43,7 +41,7 @@ class DragonCurve : Sketch() {
         background(250)
         strokeWeight(4f)
         stroke(0f, 0f, 0f, 255f)
-        colorMode(HSB, 360f, 100f, 100f)
+        colorMode(HSB, 360f, 100f, 50f)
 
         x = width/2f
         y = height/2f

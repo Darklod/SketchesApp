@@ -9,9 +9,11 @@ class Sketches {
         init {
             list.add(CellularAutomata())
             list.add(Clotoide())
+            list.add(BubbleSort())
             list.add(Heart1())
             list.add(Example())
             list.add(DragonCurve())
+            list.add(SelectionSort())
         }
     }
 }

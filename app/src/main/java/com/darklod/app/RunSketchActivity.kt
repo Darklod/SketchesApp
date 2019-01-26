@@ -1,86 +1,120 @@
 package com.darklod.app
 
-import android.app.Activity
+import android.Manifest
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.ViewGroup
+import android.view.View
 import android.widget.FrameLayout
-import android.widget.RelativeLayout
-import processing.android.CompatUtils
+import android.widget.Toast
 import processing.android.PFragment
-import processing.core.PConstants.LANDSCAPE
+import java.io.File
 
 
 class RunSketchActivity : AppCompatActivity() {
 
     private lateinit var sketch : Sketch
+    private var isFabOpen = false
+
+    private lateinit var menuButton : FloatingActionButton
+    private lateinit var backButton : FloatingActionButton
+    private lateinit var redrawButton : FloatingActionButton
+    private lateinit var photoButton : FloatingActionButton
+    private lateinit var homeButton : FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sketch)
 
         // Get the current sketch
         sketch = intent.getSerializableExtra("sketch") as Sketch
 
         requestedOrientation = sketch.orientation
 
-        // Initialize the layout
-        val relative = RelativeLayout(this)
-        val frame = FrameLayout(this)
-        val backButton = FloatingActionButton(this)
-        val redrawButton = FloatingActionButton(this)
+        menuButton = findViewById(R.id.fab_menu)
+        backButton = findViewById(R.id.back)
+        redrawButton = findViewById(R.id.reload)
+        homeButton = findViewById(R.id.home)
+        photoButton = findViewById(R.id.photo)
 
-        relative.id = CompatUtils.getUniqueViewId()
-        frame.id = CompatUtils.getUniqueViewId()
-        backButton.id = CompatUtils.getUniqueViewId()
-        redrawButton.id = CompatUtils.getUniqueViewId()
-
-        redrawButton.setImageResource(R.drawable.more)
-        redrawButton.setOnClickListener {
-            this.reload()
-        }
-
-        // TODO: GITHUB link in the app
-
-        // TODO: HORIZONTAL EXPAND BUTTON
-        // TODO: More -> Back, Redraw
-        // TODO: CHANGE FRAGMENT TRANSITION IF POSSIBLE
-
-        backButton.setImageResource(R.drawable.back)
-        backButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
-        backButton.setOnClickListener {
-            this.finish()
-        }
-
-        val params =
-            RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.setMargins(16, 16, 16, 16)
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, backButton.id)
-        params.addRule(RelativeLayout.ALIGN_PARENT_START, backButton.id)
-
-        relative.addView(frame)
-        relative.addView(backButton, params)
-        relative.addView(redrawButton)
-
-
-        //requestedOrientation =  ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-
-        // set content view
-        setContentView(
-            relative, RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        )
+        val frameLayout = findViewById<FrameLayout>(R.id.frameLayout)
 
         val fragment = PFragment(sketch)
-        fragment.setView(relative, this)
+        fragment.setView(frameLayout, this)
+
+        // TODO: GITHUB link in the app
+        // TODO: CHANGE FRAGMENT TRANSITION IF POSSIBLE
+
+        menuButton.setOnClickListener {
+            if (!isFabOpen)
+                showFabMenu()
+            else
+                closeFabMenu()
+        }
+
+        redrawButton.setOnClickListener {
+            closeFabMenu()
+            reload()
+        }
+
+        backButton.setOnClickListener {
+            closeFabMenu()
+            finish()
+        }
+
+        photoButton.setOnClickListener {
+            val dir = getPublicAlbumStorageDir("sketches")
+
+            val timestamp = System.currentTimeMillis() / 1000
+            val filename = dir?.absolutePath + File.separator + timestamp.toString() + ".png"
+
+            val file = File(filename)
+
+            sketch.save(filename)
+
+            if (file.exists())
+               Toast.makeText(applicationContext, "Picture Saved", Toast.LENGTH_SHORT).show()
+
+            closeFabMenu()
+        }
+    }
+
+    private fun getPublicAlbumStorageDir(albumName: String): File? {
+        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName)
+
+        if (isStoragePermissionGranted()) {
+            if (!file.exists() && !file.mkdir()) {
+                Log.e("LOG", "Directory not created.")
+            }
+        } else {
+            Log.e("LOG", "Missing Permission.")
+        }
+
+
+        return file
+    }
+
+    private fun isStoragePermissionGranted() : Boolean {
+        return if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                true
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
+                )
+                false
+            }
+        } else {
+            //permission is automatically granted on sdk < 23 upon installation
+            true
+        }
     }
 
     private fun reload() {
@@ -96,6 +130,63 @@ class RunSketchActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
             sketch.activity.startActivity(intent)
         //}
+    }
+
+    private fun showFabMenu() {
+        isFabOpen = true
+
+        homeButton.visibility = View.VISIBLE
+        redrawButton.visibility = View.VISIBLE
+        photoButton.visibility = View.VISIBLE
+        backButton.visibility = View.VISIBLE
+
+        homeButton.animate()
+            .setDuration(100)
+            .alpha(1f)
+
+        photoButton.animate()
+            .setDuration(200)
+            .alpha(1f)
+
+        redrawButton.animate()
+            .setDuration(300)
+            .alpha(1f)
+
+        backButton.animate()
+            .setDuration(400)
+            .alpha(1f)
+    }
+
+    private fun closeFabMenu() {
+        isFabOpen = false
+
+        homeButton.animate()
+            .setDuration(400)
+            .alpha(0f)
+            .withEndAction {
+                homeButton.visibility = View.INVISIBLE
+            }
+
+        photoButton.animate()
+            .setDuration(300)
+            .alpha(0f)
+            .withEndAction {
+                photoButton.visibility = View.INVISIBLE
+            }
+
+        redrawButton.animate()
+            .setDuration(200)
+            .alpha(0f)
+            .withEndAction {
+                redrawButton.visibility = View.INVISIBLE
+            }
+
+        backButton.animate()
+            .setDuration(100)
+            .alpha(0f)
+            .withEndAction {
+                backButton.visibility = View.INVISIBLE
+            }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
