@@ -50,6 +50,7 @@ class RunSketchActivity : AppCompatActivity() {
 
         // TODO: GITHUB link in the app
         // TODO: CHANGE FRAGMENT TRANSITION IF POSSIBLE
+        // TODO: Details Activity
 
         menuButton.setOnClickListener {
             if (!isFabOpen)
@@ -72,7 +73,7 @@ class RunSketchActivity : AppCompatActivity() {
             val dir = getPublicAlbumStorageDir("sketches")
 
             val timestamp = System.currentTimeMillis() / 1000
-            val filename = dir?.absolutePath + File.separator + timestamp.toString() + ".png"
+            val filename = dir?.absolutePath + File.separator + timestamp.toString() + ".jpg"
 
             val file = File(filename)
 

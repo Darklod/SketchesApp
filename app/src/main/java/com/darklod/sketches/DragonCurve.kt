@@ -5,7 +5,7 @@ import com.darklod.app.R
 import com.darklod.app.Sketch
 
 class DragonCurve : Sketch() {
-    override val date = "12/04/2017"
+    override val date = "04/12/2017"
     override val title = "Dragon Curve"
     override val description = "Something cool"
     override val image = R.drawable.dragoncurve

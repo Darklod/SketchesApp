@@ -27,7 +27,6 @@ class Example : Sketch() {
 
     override fun draw() {
         stroke(255)
-        line(0f, 0f , displayWidth.toFloat(), displayHeight.toFloat())
         if (mousePressed) {
             ellipse(mouseX.toFloat(), mouseY.toFloat(), 50f, 50f)
         }

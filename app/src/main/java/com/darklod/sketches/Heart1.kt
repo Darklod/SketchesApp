@@ -3,6 +3,9 @@ package com.darklod.sketches
 import com.darklod.app.R
 import com.darklod.app.Sketch
 import processing.core.PFont
+import android.content.res.AssetFileDescriptor
+import android.util.Log
+import java.io.*
 
 
 // HEART PARAMETRIC FUNCTION
@@ -11,17 +14,32 @@ import processing.core.PFont
 
 class Heart1 : Sketch() {
     override val title: String = "Parametric Heart"
-    override val date: String = ""
+    override val date: String = "27/12/2016"
     override val description: String = "..."
     override val image: Int = R.drawable.work_in_progress
-
 
     private lateinit var font : PFont
 
     override fun settings() {
         super.settings()
         fullScreen()
-        //font = loadFont("assets/flea_market_finds.ttf")
+
+        val file = File(sketchPath + File.separator + "flea_market_finds.ttf")
+        try {
+            if (!file.exists()) {
+                val assetManager = this.activity.assets
+                val afd: AssetFileDescriptor = assetManager.openFd("flea_market_finds.ttf")
+                file.createNewFile()
+
+                copyFdToFile(afd.fileDescriptor, file)
+            }
+        } catch (ex: IOException) {
+            Log.e("LOG", ex.message)
+            ex.printStackTrace()
+        }
+
+        //font = createFont("flea_market_finds.ttf", 30f, true, null)
+        font = loadFont("flea_market_finds.ttf") //flea_market_finds.ttf
     }
 
     override fun setup() {
@@ -31,7 +49,7 @@ class Heart1 : Sketch() {
         pushMatrix()
         translate(50f, height - height / 6f)
 
-        // textFont(font)
+        textFont(font)
         textSize(height / 25f)
         text("x(t) = 16sin³t\ny(t) = 13cost - 5cos2t - 2cos3t - cos4t", 10f, 30f)
         popMatrix()
@@ -54,5 +72,19 @@ class Heart1 : Sketch() {
         }
         endShape()
     }
+
+    fun copyFdToFile(src: FileDescriptor, dst: File) {
+        val inChannel = FileInputStream(src).getChannel()
+        val outChannel = FileOutputStream(dst).getChannel()
+        try {
+            inChannel!!.transferTo(0, inChannel.size(), outChannel)
+        } finally {
+            if (inChannel != null)
+                inChannel.close()
+            if (outChannel != null)
+                outChannel.close()
+        }
+    }
+
 
 }

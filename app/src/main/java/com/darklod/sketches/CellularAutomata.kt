@@ -7,7 +7,7 @@ import com.darklod.app.Sketch
 
 class CellularAutomata : Sketch() {
     override val title: String = "Cellular Automata"
-    override val date: String = ""
+    override val date: String = "02/12/2017"
     override val description: String = "..."
     override val image: Int = R.drawable.work_in_progress
 

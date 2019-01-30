@@ -12,6 +12,8 @@ class Sketches {
             list.add(BubbleSort())
             list.add(Heart1())
             list.add(Example())
+            list.add(CircleChordsHeart())
+            list.add(Circles())
             list.add(DragonCurve())
             list.add(SelectionSort())
         }
