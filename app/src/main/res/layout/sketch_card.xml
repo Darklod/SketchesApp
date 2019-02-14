@@ -22,9 +22,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <ImageView
+                    android:contentDescription="Preview"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:scaleType="centerCrop"
                     android:id="@+id/image"/>
             <View
                     android:layout_width="fill_parent"

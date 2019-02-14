@@ -24,23 +24,23 @@
                 android:orientation="vertical">
 
             <TextView
-                android:text="@string/app_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView"
-                android:textAllCaps="true"
-                android:textAlignment="center"
-                android:textSize="52sp"
-                android:textColor="#fff"
-                android:fontFamily="@font/sketchtica"
-                android:focusableInTouchMode="true"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"/>
+                    android:text="@string/app_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    android:textSize="52sp"
+                    android:textColor="#fff"
+                    android:fontFamily="@font/sketchtica"
+                    android:focusableInTouchMode="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"/>
 
             <Spinner
                     android:layout_width="match_parent"

@@ -3,13 +3,11 @@ package com.darklod.app
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         spinner = findViewById(R.id.spinner)
 
         val adapter = ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_dropdown_item)
-        adapter.addAll(listOf("Sort By Title", "Sort By Date"))
+        adapter.addAll(listOf("Sort By Date", "Sort By Title"))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         spinner.adapter = adapter
@@ -48,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
                 when (pos) {
-                    1 -> sketches.sortBy { x -> x.date }
-                    0 -> sketches.sortBy { x -> x.title }
+                    0 -> sketches.sortByDescending { x -> x.date }
+                    1 -> sketches.sortBy { x -> x.title }
                 }
                 recyclerView.adapter.notifyDataSetChanged()
             }
@@ -87,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
 
         val linearLayout = LinearLayoutManager(applicationContext)
-        val gridLayout = GridLayoutManager(applicationContext, 3)
+        val gridLayout = GridLayoutManager(applicationContext, 2)
 
         layoutManager = when (newConfig?.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> linearLayout

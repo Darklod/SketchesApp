@@ -2,11 +2,12 @@ package com.darklod.sketches
 
 import com.darklod.app.R
 import com.darklod.app.Sketch
+import java.util.*
 
 
 class Clotoide : Sketch() {
     override val title: String = "Clotoide"
-    override val date: String = "22/01/19"
+    override val date: Date = dateFormat.parse("22/01/2019")
     override val description: String = "Una Clotoide"
     override val image: Int = R.drawable.work_in_progress
 

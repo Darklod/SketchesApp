@@ -97,7 +97,6 @@ class RunSketchActivity : AppCompatActivity() {
             Log.e("LOG", "Missing Permission.")
         }
 
-
         return file
     }
 

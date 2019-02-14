@@ -2,14 +2,14 @@ package com.darklod.sketches
 
 import com.darklod.app.R
 import com.darklod.app.Sketch
-
+import java.util.*
 
 
 class CellularAutomata : Sketch() {
     override val title: String = "Cellular Automata"
-    override val date: String = "02/12/2017"
+    override val date: Date = dateFormat.parse("02/12/2016")
     override val description: String = "..."
-    override val image: Int = R.drawable.work_in_progress
+    override val image: Int = R.drawable.cellularautomata
 
     private var arr = ArrayList<Int>()
     private var n = 100

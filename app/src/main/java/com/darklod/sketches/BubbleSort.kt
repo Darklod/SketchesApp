@@ -2,12 +2,13 @@ package com.darklod.sketches
 
 import com.darklod.app.R
 import com.darklod.app.Sketch
+import java.util.*
 import kotlin.math.roundToInt
 
 
 class BubbleSort : Sketch() {
     override val description = "good description"
-    override val date = "06/04/2017"
+    override val date: Date = dateFormat.parse("06/04/2017")
     override val title = "Bubble Sort"
     override val image = R.drawable.work_in_progress
 

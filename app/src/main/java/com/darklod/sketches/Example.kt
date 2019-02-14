@@ -3,11 +3,12 @@ package com.darklod.sketches
 import android.content.pm.ActivityInfo
 import com.darklod.app.R
 import com.darklod.app.Sketch
+import java.util.*
 
 class Example : Sketch() {
 
     override val description = "good description"
-    override val date = "09/01/2019"
+    override val date: Date = dateFormat.parse("09/01/2019")
     override val title = "Example"
     override val image = R.drawable.work_in_progress
 

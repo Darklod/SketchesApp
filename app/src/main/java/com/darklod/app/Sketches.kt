@@ -16,6 +16,8 @@ class Sketches {
             list.add(Circles())
             list.add(DragonCurve())
             list.add(SelectionSort())
+
+            list.sortBy { x -> x.date }
         }
     }
 }

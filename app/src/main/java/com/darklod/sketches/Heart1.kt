@@ -1,11 +1,12 @@
 package com.darklod.sketches
 
+import android.util.Log
 import com.darklod.app.R
 import com.darklod.app.Sketch
 import processing.core.PFont
-import android.content.res.AssetFileDescriptor
-import android.util.Log
 import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 // HEART PARAMETRIC FUNCTION
@@ -14,35 +15,20 @@ import java.io.*
 
 class Heart1 : Sketch() {
     override val title: String = "Parametric Heart"
-    override val date: String = "27/12/2016"
+    override val date: Date = dateFormat.parse("27/12/2016")
     override val description: String = "..."
-    override val image: Int = R.drawable.work_in_progress
+    override val image: Int = R.drawable.heart1
 
     private lateinit var font : PFont
 
     override fun settings() {
-        super.settings()
         fullScreen()
-
-        val file = File(sketchPath + File.separator + "flea_market_finds.ttf")
-        try {
-            if (!file.exists()) {
-                val assetManager = this.activity.assets
-                val afd: AssetFileDescriptor = assetManager.openFd("flea_market_finds.ttf")
-                file.createNewFile()
-
-                copyFdToFile(afd.fileDescriptor, file)
-            }
-        } catch (ex: IOException) {
-            Log.e("LOG", ex.message)
-            ex.printStackTrace()
-        }
-
-        //font = createFont("flea_market_finds.ttf", 30f, true, null)
-        font = loadFont("flea_market_finds.ttf") //flea_market_finds.ttf
     }
 
     override fun setup() {
+        val filename = "${fontPath()}${File.separator}flea_market_finds.ttf"
+        font = createFont(filename, 30f)
+
         background(255f, 0f, 100f)
         fill(255)
 
@@ -72,19 +58,5 @@ class Heart1 : Sketch() {
         }
         endShape()
     }
-
-    fun copyFdToFile(src: FileDescriptor, dst: File) {
-        val inChannel = FileInputStream(src).getChannel()
-        val outChannel = FileOutputStream(dst).getChannel()
-        try {
-            inChannel!!.transferTo(0, inChannel.size(), outChannel)
-        } finally {
-            if (inChannel != null)
-                inChannel.close()
-            if (outChannel != null)
-                outChannel.close()
-        }
-    }
-
 
 }

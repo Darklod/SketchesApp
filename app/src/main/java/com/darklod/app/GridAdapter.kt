@@ -24,8 +24,15 @@ class GridAdapter(private var sketches: ArrayList<Sketch>,
 
         fun bind(item: Sketch, listener: OnItemClickListener) {
             title.text = item.title
-            date.text = item.date
-            Picasso.with(layout.context).load(item.image).into(image)
+            date.text = item.dateFormat.format(item.date)
+
+            Picasso
+                .with(layout.context)
+                .load(item.image)
+                .fit()
+                .centerCrop()
+                .into(image)
+
             itemView.setOnClickListener {
                 listener.onItemClick(item)
             }

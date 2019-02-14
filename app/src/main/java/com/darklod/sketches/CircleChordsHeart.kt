@@ -3,10 +3,11 @@ package com.darklod.sketches
 import android.util.Log
 import com.darklod.app.R
 import com.darklod.app.Sketch
+import java.util.*
 
 class CircleChordsHeart : Sketch() {
     override val title: String = "Circle Chords Heart"
-    override val date: String = "27/12/2016"
+    override val date: Date = dateFormat.parse("27/12/2016")
     override val description: String = "..."
     override val image: Int = R.drawable.circlechords
 

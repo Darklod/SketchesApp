@@ -3,9 +3,10 @@ package com.darklod.sketches
 import android.content.pm.ActivityInfo
 import com.darklod.app.R
 import com.darklod.app.Sketch
+import java.util.*
 
 class DragonCurve : Sketch() {
-    override val date = "04/12/2017"
+    override val date: Date = dateFormat.parse("04/12/2017")
     override val title = "Dragon Curve"
     override val description = "Something cool"
     override val image = R.drawable.dragoncurve
