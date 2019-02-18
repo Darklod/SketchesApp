@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+    >
+        <item android:title="Info" app:showAsAction="always" android:icon="@drawable/info"/>
+    </group>
+    <group
+    >
+        <item android:title="Instagram" app:showAsAction="always" android:icon="@drawable/instagram"/>
+        <item android:title="Linkedin" app:showAsAction="always" android:icon="@drawable/linkedin"/>
+        <item android:title="Github" app:showAsAction="always" android:icon="@drawable/github"/>
+    </group>
+</menu>

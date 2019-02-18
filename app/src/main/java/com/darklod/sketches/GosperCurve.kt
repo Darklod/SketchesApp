@@ -1,30 +1,25 @@
 package com.darklod.sketches
 
-import android.content.pm.ActivityInfo
 import com.darklod.app.R
 import com.darklod.app.Sketch
 import java.util.*
 
-class DragonCurve : Sketch() {
+class GosperCurve : Sketch() {
     override val date: Date = dateFormat.parse("04/12/2017")
-    override val title = "Dragon Curve"
+    override val title = "Gosper Curve"
     override val description = "Something cool"
-    override val image = R.drawable.dragoncurve
-
-    init {
-        orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-    }
+    override val image = R.drawable.gospercurve
 
     // TURTLE
-    private var x = -50f
+    private var x = 0f
     private var y = 0f
-    private var currentAngle = -90f
-    private var step = 22f
-    private var angle = 90f
+    private var currentAngle = 0f
+    private var step = 18f
+    private var angle = 60f
 
     // LINDENMAYER
-    private var axiom : String = "FX"
-    private var iterations = 10
+    private var axiom : String = "A"
+    private var iterations = 4
     private var rules = HashMap<String, String>()
 
     private var index = 0
@@ -36,17 +31,19 @@ class DragonCurve : Sketch() {
     override fun setup() {
         orientation(LANDSCAPE)
 
-        rules["X"] = "X+YF+"
-        rules["Y"] = "-FX-Y"
+        // L-SYSTEM RULES
+        rules["A"] = "A+BF++BF-FA--FAFA-BF+"
+        rules["B"] = "-FA+BFBF++BF+FA--FA-B"
 
         background(250)
         strokeWeight(4f)
         stroke(0f, 0f, 0f, 255f)
         colorMode(HSB, 360f, 100f, 50f)
 
-        x = width/2f
-        y = height/2f
+        x = width/2f + step * 10f
+        y = 50f
 
+        // COMPUTE THE L-SYSTEM
         axiom = Utils(this).lindenmayer(axiom, rules, iterations)
     }
 
@@ -61,6 +58,7 @@ class DragonCurve : Sketch() {
         }
     }
 
+    // TODO: REFACTORING
     private fun drawSystem(k: Char) {
         when (k) {
             'F' -> {

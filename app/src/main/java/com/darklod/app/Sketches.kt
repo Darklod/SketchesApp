@@ -16,6 +16,12 @@ class Sketches {
             list.add(Circles())
             list.add(DragonCurve())
             list.add(SelectionSort())
+            list.add(HexTime())
+            list.add(Matrix())
+            list.add(Lights())
+            list.add(Serotonin())
+            list.add(Dopamine())
+            list.add(GosperCurve())
 
             list.sortBy { x -> x.date }
         }

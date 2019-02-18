@@ -42,4 +42,5 @@ dependencies {
     implementation 'org.p5android:processing-core:4.0.4'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.android.support:appcompat-v7:26.0.2'
 }

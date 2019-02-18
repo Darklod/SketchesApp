@@ -8,10 +8,12 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.os.Parcelable
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.view.Menu
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +34,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = ""
+        setSupportActionBar(toolbar)
 
         recyclerView = findViewById(R.id.recyclerview)
         layoutManager = LinearLayoutManager(applicationContext)
@@ -79,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.bottombar, menu)
+        return true
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
